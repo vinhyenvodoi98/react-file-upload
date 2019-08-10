@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
 import Dropzone from "../dropzone/Dropzone";
-import "./Upload.css";
 import Progress from "../progress/Progress";
+
+import "./Upload.css";
 
 class Upload extends Component {
   constructor(props) {
@@ -101,9 +104,14 @@ class Upload extends Component {
   renderActions() {
     if (this.state.successfullUploaded) {
       return (
-        <button onClick={() => this.setState({ files: [], successfullUploaded: false })}>
-          Clear
-        </button>
+        <div className='upload-file-button-area'>
+          <Link className='link' to='/input'>
+            Input
+          </Link>
+          <button onClick={() => this.setState({ files: [], successfullUploaded: false })}>
+            Clear
+          </button>
+        </div>
       );
     } else {
       return (
