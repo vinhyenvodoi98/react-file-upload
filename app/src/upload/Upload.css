@@ -57,6 +57,7 @@
 .CheckIcon {
   opacity: 0.5;
   margin-left: 32px;
+  height: 17px;
 }
 
 .ProgressWrapper {

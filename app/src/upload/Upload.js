@@ -20,7 +20,7 @@ class Upload extends Component {
   }
 
   onFilesAdded(files) {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       files: prevState.files.concat(files)
     }));
   }
@@ -28,7 +28,7 @@ class Upload extends Component {
   async uploadFiles() {
     this.setState({ uploadProgress: {}, uploading: true });
     const promises = [];
-    this.state.files.forEach(file => {
+    this.state.files.forEach((file) => {
       promises.push(this.sendRequest(file));
     });
     try {
@@ -45,7 +45,7 @@ class Upload extends Component {
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
 
-      req.upload.addEventListener("progress", event => {
+      req.upload.addEventListener("progress", (event) => {
         if (event.lengthComputable) {
           const copy = { ...this.state.uploadProgress };
           copy[file.name] = {
@@ -56,14 +56,14 @@ class Upload extends Component {
         }
       });
 
-      req.upload.addEventListener("load", event => {
+      req.upload.addEventListener("load", (event) => {
         const copy = { ...this.state.uploadProgress };
         copy[file.name] = { state: "done", percentage: 100 };
         this.setState({ uploadProgress: copy });
         resolve(req.response);
       });
 
-      req.upload.addEventListener("error", event => {
+      req.upload.addEventListener("error", (event) => {
         const copy = { ...this.state.uploadProgress };
         copy[file.name] = { state: "error", percentage: 0 };
         this.setState({ uploadProgress: copy });
@@ -74,6 +74,7 @@ class Upload extends Component {
       formData.append("file", file, file.name);
 
       req.open("POST", "http://localhost:8000/upload");
+      // req.open("POST", "http://192.168.43.82:5000/api/ocr");
       req.send(formData);
     });
   }
@@ -82,15 +83,14 @@ class Upload extends Component {
     const uploadProgress = this.state.uploadProgress[file.name];
     if (this.state.uploading || this.state.successfullUploaded) {
       return (
-        <div className="ProgressWrapper">
+        <div className='ProgressWrapper'>
           <Progress progress={uploadProgress ? uploadProgress.percentage : 0} />
           <img
-            className="CheckIcon"
-            alt="done"
-            src="baseline-check_circle_outline-24px.svg"
+            className='CheckIcon'
+            alt='done'
+            src='baseline-check_circle_outline-24px.svg'
             style={{
-              opacity:
-                uploadProgress && uploadProgress.state === "done" ? 0.5 : 0
+              opacity: uploadProgress && uploadProgress.state === "done" ? 0.5 : 0
             }}
           />
         </div>
@@ -101,11 +101,7 @@ class Upload extends Component {
   renderActions() {
     if (this.state.successfullUploaded) {
       return (
-        <button
-          onClick={() =>
-            this.setState({ files: [], successfullUploaded: false })
-          }
-        >
+        <button onClick={() => this.setState({ files: [], successfullUploaded: false })}>
           Clear
         </button>
       );
@@ -113,8 +109,7 @@ class Upload extends Component {
       return (
         <button
           disabled={this.state.files.length < 0 || this.state.uploading}
-          onClick={this.uploadFiles}
-        >
+          onClick={this.uploadFiles}>
           Upload
         </button>
       );
@@ -123,27 +118,27 @@ class Upload extends Component {
 
   render() {
     return (
-      <div className="Upload">
-        <span className="Title">Upload Files</span>
-        <div className="Content">
+      <div className='Upload'>
+        <span className='Title'>Upload Files</span>
+        <div className='Content'>
           <div>
             <Dropzone
               onFilesAdded={this.onFilesAdded}
               disabled={this.state.uploading || this.state.successfullUploaded}
             />
           </div>
-          <div className="Files">
-            {this.state.files.map(file => {
+          <div className='Files'>
+            {this.state.files.map((file) => {
               return (
-                <div key={file.name} className="Row">
-                  <span className="Filename">{file.name}</span>
+                <div key={file.name} className='Row'>
+                  <span className='Filename'>{file.name}</span>
                   {this.renderProgress(file)}
                 </div>
               );
             })}
           </div>
         </div>
-        <div className="Actions">{this.renderActions()}</div>
+        <div className='Actions'>{this.renderActions()}</div>
       </div>
     );
   }
