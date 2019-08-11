@@ -17,4 +17,10 @@ ifconfig
 ```
 and replace 192.168.43.82 by the server ip
 
+run 
+```sh
+yarn start
+```
+for run project
+
 when upload file maybe take for a while.
