@@ -10,9 +10,10 @@ class Input extends Component {
     super(props);
     this.state = {
       data: this.props.location.state.data.data,
-      isSendDone: true,
-      uri: this.props.location.state.data.img_uri
-      //   formData: this.props.location.state.formData
+      isSendDone: false,
+      uri: this.props.location.state.data.img_uri,
+      uri_result: "",
+      download: ""
     };
     this.fieldForm = this.fieldForm.bind(this);
     this.onChangeData = this.onChangeData.bind(this);
@@ -27,7 +28,11 @@ class Input extends Component {
       })
       .then(async (response) => {
         console.log("done ", response);
-        await this.setState({ isSendDone: true });
+        await this.setState({
+          isSendDone: true,
+          uri_result: response.data.upload,
+          download: response.data.download
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -38,11 +43,9 @@ class Input extends Component {
     var data = this.state.data;
     data[index].field = value;
     this.setState({ data });
-    console.log(this.state.data);
   }
 
   render() {
-    console.log(this.state.uri);
     return (
       <div className='Input'>
         <div className='InputCard'>
@@ -53,23 +56,24 @@ class Input extends Component {
             <InputLable key={index} data={lable} index={index} onChangeData={this.onChangeData} />
           ))}
           <div className='upload-file-button-area'>
+            <button onClick={this.fieldForm} className='btn btn-primary'>
+              Submit
+            </button>
             {this.state.isSendDone ? (
               <Link
                 className='image'
                 to={{
                   pathname: "/image",
                   state: {
-                    url: this.state.url
+                    uri_result: this.state.uri_result,
+                    download: this.state.download
                   }
                 }}>
-                Input
+                Show result
               </Link>
             ) : (
               <div />
             )}
-            <button onClick={this.fieldForm} className='btn btn-primary'>
-              Submit
-            </button>
           </div>
         </div>
       </div>
