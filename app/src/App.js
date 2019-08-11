@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Upload from "./upload/Upload";
 import Input from "./input/Input";
-// import Nav from "./nav/Nav";
+import Image from "./image/Image";
 
 class App extends Component {
   render() {
@@ -19,6 +19,7 @@ class App extends Component {
             </div>
           </Route>
           <Route path='/input' component={Input} />
+          <Route path='/image' component={Image} />
         </Switch>
       </BrowserRouter>
     );

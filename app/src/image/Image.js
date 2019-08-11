@@ -5,7 +5,7 @@ class Image extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      uri: this.props.location.state.uri
+      url: this.props.location.state.url
     };
   }
 
@@ -17,7 +17,7 @@ class Image extends Component {
     return (
       <div className='Image'>
         <div className='ImageCard'>
-          <img alt='img' src={this.state.uri} />
+          <img className='Image-center' alt='img' src={this.state.url} />
         </div>
       </div>
     );

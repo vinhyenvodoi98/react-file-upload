@@ -20,7 +20,7 @@
   box-sizing: border-box;
 }
 
-.Title{
-    text-align: center;
-    font-size: 2em;
+.Image-center {
+    width: 100%;
+    height: 100%;
 }

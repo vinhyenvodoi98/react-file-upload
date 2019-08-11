@@ -16,7 +16,7 @@ class Upload extends Component {
       uploadProgress: {},
       successfullUploaded: false,
       data: [],
-      formData: null
+      uri: ""
     };
 
     this.onFilesAdded = this.onFilesAdded.bind(this);
@@ -87,7 +87,6 @@ class Upload extends Component {
   }
 
   getRes = (formData) => {
-    this.setState({ formData });
     var data;
     axios({
       method: "post",
@@ -98,7 +97,7 @@ class Upload extends Component {
       .then(async (response) => {
         //handle success
         data = response.data;
-        await this.setState({ data });
+        await this.setState({ data: data, uri: response.img_uri });
       })
       .catch(function(response) {
         //handle error
@@ -134,7 +133,8 @@ class Upload extends Component {
             to={{
               pathname: "/input",
               state: {
-                data: this.state.data
+                data: this.state.data,
+                uri: this.state.uri
               }
             }}>
             Input
