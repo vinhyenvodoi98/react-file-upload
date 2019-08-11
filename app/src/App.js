@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Upload from "./upload/Upload";
 import Input from "./input/Input";
+// import Nav from "./nav/Nav";
 
 class App extends Component {
   render() {
@@ -11,6 +12,7 @@ class App extends Component {
         <Switch>
           <Route exact path='/'>
             <div className='App'>
+              {/* <Nav /> */}
               <div className='Card'>
                 <Upload />
               </div>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import Dropzone from "../dropzone/Dropzone";
 import Progress from "../progress/Progress";
@@ -13,13 +14,16 @@ class Upload extends Component {
       files: [],
       uploading: false,
       uploadProgress: {},
-      successfullUploaded: false
+      successfullUploaded: false,
+      data: [],
+      formData: null
     };
 
     this.onFilesAdded = this.onFilesAdded.bind(this);
     this.uploadFiles = this.uploadFiles.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
     this.renderActions = this.renderActions.bind(this);
+    this.getRes = this.getRes.bind(this);
   }
 
   onFilesAdded(files) {
@@ -74,13 +78,33 @@ class Upload extends Component {
       });
 
       const formData = new FormData();
-      formData.append("file", file, file.name);
+      formData.append("photo", file, file.name);
 
-      req.open("POST", "http://localhost:8000/upload");
-      // req.open("POST", "http://192.168.43.82:5000/api/ocr");
+      req.open("POST", "http://192.168.43.82:5000/api/ocr");
       req.send(formData);
+      this.getRes(formData);
     });
   }
+
+  getRes = (formData) => {
+    this.setState({ formData });
+    var data;
+    axios({
+      method: "post",
+      url: "http://192.168.43.82:5000/api/ocr",
+      data: formData,
+      config: { headers: { "Content-Type": "multipart/form-data" } }
+    })
+      .then(async (response) => {
+        //handle success
+        data = response.data;
+        await this.setState({ data });
+      })
+      .catch(function(response) {
+        //handle error
+        console.log(response);
+      });
+  };
 
   renderProgress(file) {
     const uploadProgress = this.state.uploadProgress[file.name];
@@ -105,7 +129,14 @@ class Upload extends Component {
     if (this.state.successfullUploaded) {
       return (
         <div className='upload-file-button-area'>
-          <Link className='link' to='/input'>
+          <Link
+            className='link'
+            to={{
+              pathname: "/input",
+              state: {
+                data: this.state.data
+              }
+            }}>
             Input
           </Link>
           <button onClick={() => this.setState({ files: [], successfullUploaded: false })}>
@@ -125,6 +156,7 @@ class Upload extends Component {
   }
 
   render() {
+    console.log(this.state.data);
     return (
       <div className='Upload'>
         <span className='Title'>Upload Files</span>

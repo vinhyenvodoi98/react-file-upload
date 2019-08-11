@@ -7,46 +7,23 @@ class Input extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {
-          lable: "Your name",
-          field: ""
-        },
-        {
-          lable: "Your permanent address",
-          field: ""
-        },
-        {
-          lable: "Your email address",
-          field: ""
-        },
-        {
-          lable: "Your mailing address",
-          field: ""
-        },
-        {
-          lable: "Your date of birth",
-          field: ""
-        },
-        {
-          lable: "Place of birth (country)",
-          field: ""
-        }
-      ]
+      data: this.props.location.state.data
+      //   formData: this.props.location.state.formData
     };
     this.fieldForm = this.fieldForm.bind(this);
     this.onChangeData = this.onChangeData.bind(this);
   }
 
   fieldForm = () => {
+    console.log(this.state.data);
     axios
-      .post("http://localhost:8000/form", {
+      .post("http://192.168.43.82:5000/api/form", {
         data: this.state.data
       })
-      .then(function(response) {
+      .then((response) => {
         console.log("done ", response);
       })
-      .catch(function(error) {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -55,9 +32,11 @@ class Input extends Component {
     var data = this.state.data;
     data[index].field = value;
     this.setState({ data });
+    console.log(this.state.data);
   }
 
   render() {
+    console.log(this.state.data);
     return (
       <div className='Input'>
         <div className='InputCard'>

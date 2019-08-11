@@ -8,23 +8,20 @@ class InputLable extends Component {
   }
 
   onChangeData = (event) => {
-    // console.log(event.target.value);
     this.props.onChangeData(event.target.value, this.props.index);
   };
 
   render() {
-    console.log(this.props.data.field);
     return (
       <div className='InputLable'>
         <p>
-          <strong>{this.props.data.lable}</strong>
+          <strong>{this.props.data.label}</strong>
         </p>
         <input
           type='text'
           className='form-control'
-          id='exampleInputEmail1'
           onChange={this.onChangeData}
-          placeholder={"Enter" + this.props.data.lable}
+          placeholder={"Enter " + this.props.data.label}
         />
       </div>
     );
